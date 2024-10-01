@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.Calendar;
 
 /**
- *
+ * Clase para verificiar si el vehículo tiene pico y placa
  * @author ENRIQUE
  */
 public class Predictor {
@@ -17,6 +17,8 @@ public class Predictor {
     private String fecha;          //Fecha en la que se debe buscar siel vehículo tiene pico y placa
     private String horaMinuto;          //Hora exacta 
     private char[] codigosProvincias = new char[]{'A', 'B', 'C', 'E', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}; //Códigos usados para identificar la provincia
+    private String respuestaTienePicoyPlaca = ""; //Variable para almacenar si hay pico y placa
+    private String respuestaNoTienePicoyPlaca = ""; //Variable para almacenar si no  hay pico y placa
 
     /**
      * Método constructor
@@ -37,7 +39,8 @@ public class Predictor {
      *
      * @throws ParseException
      */
-    public void verificarPicoPlaca() throws ParseException {
+    public Boolean verificarPicoPlaca() throws ParseException {
+        Boolean tienePicoPlaca = Boolean.FALSE;
         if (validar()) {
             Calendar calendario = Calendar.getInstance();
             DateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
@@ -47,54 +50,82 @@ public class Predictor {
             String[] separarHora = horaMinuto.split(":");
             int hora = Integer.parseInt(separarHora[0]);
             int minutos = Integer.parseInt(separarHora[1]);
+            respuestaTienePicoyPlaca = "Su vehículo no puede circular";
+            respuestaNoTienePicoyPlaca = "Su vehículo  puede circular";
+
             switch (diaSemana) {
 
                 case 2: {
                     if (ultimoNumeroPlaca.equals("1") || ultimoNumeroPlaca.equals("2")) {
-                        verificarHora(hora, minutos);
+                        if (verificarHora(hora, minutos)) {
+                            System.out.println(respuestaTienePicoyPlaca);
+                            tienePicoPlaca = Boolean.TRUE;
+                        } else {
+                            System.out.println(respuestaNoTienePicoyPlaca);
+                        };
                     } else {
-                        System.out.println("Su vehículo puede circular");
+                        System.out.println(respuestaNoTienePicoyPlaca);
                     }
                     break;
                 }
                 case 3: {
                     if (ultimoNumeroPlaca.equals("3") || ultimoNumeroPlaca.equals("4")) {
-                        verificarHora(hora, minutos);
+                        if (verificarHora(hora, minutos)) {
+                            System.out.println(respuestaTienePicoyPlaca);
+                            tienePicoPlaca = Boolean.TRUE;
+                        } else {
+                            System.out.println(respuestaNoTienePicoyPlaca);
+                        };
                     } else {
-                        System.out.println("Su vehículo puede circular");
+                        System.out.println(respuestaNoTienePicoyPlaca);
                     }
                     break;
                 }
                 case 4: {
                     if (ultimoNumeroPlaca.equals("5") || ultimoNumeroPlaca.equals("6")) {
-                        verificarHora(hora, minutos);
+                        if (verificarHora(hora, minutos)) {
+                            System.out.println(respuestaTienePicoyPlaca);
+                            tienePicoPlaca = Boolean.TRUE;
+                        } else {
+                            System.out.println(respuestaNoTienePicoyPlaca);
+                        };
                     } else {
-                        System.out.println("Su vehículo puede circular");
+                        System.out.println(respuestaNoTienePicoyPlaca);
                     }
                     break;
                 }
                 case 5: {
                     if (ultimoNumeroPlaca.equals("7") || ultimoNumeroPlaca.equals("8")) {
-                        verificarHora(hora, minutos);
+                        if (verificarHora(hora, minutos)) {
+                            System.out.println(respuestaTienePicoyPlaca);
+                            tienePicoPlaca = Boolean.TRUE;
+                        } else {
+                            System.out.println(respuestaNoTienePicoyPlaca);
+                        };
                     } else {
-                        System.out.println("Su vehículo puede circular");
+                        System.out.println(respuestaNoTienePicoyPlaca);
                     }
                     break;
                 }
                 case 6: {
                     if (ultimoNumeroPlaca.equals("9") || ultimoNumeroPlaca.equals("0")) {
-                        verificarHora(hora, minutos);
+                        if (verificarHora(hora, minutos)) {
+                            System.out.println(respuestaTienePicoyPlaca);
+                            tienePicoPlaca = Boolean.TRUE;
+                        } else {
+                            System.out.println(respuestaNoTienePicoyPlaca);
+                        };
                     } else {
-                        System.out.println("Su vehículo puede circular");
+                        System.out.println(respuestaNoTienePicoyPlaca);
                     }
                     break;
                 }
-
                 default: {
                     System.out.println("Este día no hay pico y placa");
                 }
             }
         }
+        return tienePicoPlaca;
     }
 
     /**
@@ -102,23 +133,26 @@ public class Predictor {
      *
      * @param hora
      * @param minutos
+     * @return 
      */
-    public void verificarHora(int hora, int minutos) {
+    public Boolean verificarHora(int hora, int minutos) {
+        Boolean picoPlaca = Boolean.FALSE;
         if (hora >= 6 && hora <= 9 || hora >= 16 && hora < 20) {
             if ((hora == 9 || hora == 20) && minutos <= 30) {
-                System.out.println("Su vehículo no puede circular");
+                picoPlaca = Boolean.TRUE;
             } else {
                 if (hora >= 6 && hora <= 8 || hora >= 16 && hora <= 20) {
                     if (minutos >= 00) {
-                        System.out.println("Su vehículo no puede circular");
+                        picoPlaca = Boolean.TRUE;
                     }
                 } else {
-                    System.out.println("Su vehículo  puede circular");
+                    picoPlaca = Boolean.FALSE;
                 }
             }
         } else {
-            System.out.println("Su vehículo  puede circular");
+            picoPlaca = Boolean.FALSE;
         }
+        return picoPlaca;
     }
 
     /**
