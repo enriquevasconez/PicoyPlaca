@@ -15,7 +15,7 @@ public class PicoPlaca {
         //Variables
         String numeroPlaca;    //Número de la placa del vehículo
         String fecha;          //Fecha en la que se debe buscar siel vehículo tiene pico y placa
-        String hora;            //hora para verificar pico y placa
+        String hora;           //hora para verificar pico y placa
 
         //Hora exacta 
         Scanner informacion = new Scanner(System.in);
