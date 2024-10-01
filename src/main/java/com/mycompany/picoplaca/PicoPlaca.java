@@ -26,11 +26,11 @@ public class PicoPlaca {
         System.out.println("Ingrese fecha en formato dd-mm-aaaa");
         fecha = informacion.nextLine();
         //vericia que el rango de la hora es el correcto
-        if (hora.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
+        if (hora.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")&& fecha.length() == 10 && fecha.indexOf('-') != -1) {
             Predictor predictor = new Predictor(numeroPlaca, fecha, hora);
             predictor.verificarPicoPlaca();
         } else {
-            System.out.print("Rango de la hora debe ser 00:00-23:59 ");
+            System.out.print("Rango de la hora debe ser 00:00-23:59 y la fecha debe estar completa");
         }
 
     }

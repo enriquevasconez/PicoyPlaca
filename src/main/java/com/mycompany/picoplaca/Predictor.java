@@ -12,11 +12,19 @@ import java.util.Calendar;
  */
 public class Predictor {
 
-//Variables
+    //Variables
     private String numeroPlaca;    //Número de la placa del vehículo
     private String fecha;          //Fecha en la que se debe buscar siel vehículo tiene pico y placa
     private String horaMinuto;          //Hora exacta 
+    private char[] codigosProvincias = new char[]{'A', 'B', 'C', 'E', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}; //Códigos usados para identificar la provincia
 
+    /**
+     * Método constructor
+     *
+     * @param numeroPlaca
+     * @param fecha
+     * @param hora
+     */
     public Predictor(String numeroPlaca, String fecha, String hora) {
         super();
         this.numeroPlaca = numeroPlaca;
@@ -24,6 +32,11 @@ public class Predictor {
         this.horaMinuto = hora;
     }
 
+    /**
+     * Métido para verificar si el vehículo tiene pico y placa
+     *
+     * @throws ParseException
+     */
     public void verificarPicoPlaca() throws ParseException {
         if (validar()) {
             Calendar calendario = Calendar.getInstance();
@@ -45,7 +58,7 @@ public class Predictor {
                     break;
                 }
                 case 3: {
-                    if (ultimoNumeroPlaca == "3" || ultimoNumeroPlaca == "4") {
+                    if (ultimoNumeroPlaca.equals("3") || ultimoNumeroPlaca.equals("4")) {
                         verificarHora(hora, minutos);
                     } else {
                         System.out.println("Su vehículo puede circular");
@@ -53,7 +66,7 @@ public class Predictor {
                     break;
                 }
                 case 4: {
-                    if (ultimoNumeroPlaca == "5" || ultimoNumeroPlaca == "6") {
+                    if (ultimoNumeroPlaca.equals("5") || ultimoNumeroPlaca.equals("6")) {
                         verificarHora(hora, minutos);
                     } else {
                         System.out.println("Su vehículo puede circular");
@@ -61,7 +74,7 @@ public class Predictor {
                     break;
                 }
                 case 5: {
-                    if (ultimoNumeroPlaca == "7" || ultimoNumeroPlaca == "8") {
+                    if (ultimoNumeroPlaca.equals("7") || ultimoNumeroPlaca.equals("8")) {
                         verificarHora(hora, minutos);
                     } else {
                         System.out.println("Su vehículo puede circular");
@@ -69,7 +82,7 @@ public class Predictor {
                     break;
                 }
                 case 6: {
-                    if (ultimoNumeroPlaca == "9" || ultimoNumeroPlaca == "0") {
+                    if (ultimoNumeroPlaca.equals("9") || ultimoNumeroPlaca.equals("0")) {
                         verificarHora(hora, minutos);
                     } else {
                         System.out.println("Su vehículo puede circular");
@@ -84,6 +97,12 @@ public class Predictor {
         }
     }
 
+    /**
+     * Método para verificar si la hora ingresa está en el rango de pico y placa
+     *
+     * @param hora
+     * @param minutos
+     */
     public void verificarHora(int hora, int minutos) {
         if (hora >= 6 && hora <= 9 || hora >= 16 && hora < 20) {
             if ((hora == 9 || hora == 20) && minutos <= 30) {
@@ -102,6 +121,12 @@ public class Predictor {
         }
     }
 
+    /**
+     * Método para validar errores
+     *
+     * @return
+     * @throws ParseException
+     */
     public Boolean validar() throws ParseException {
         boolean validar = Boolean.TRUE;
         DateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
@@ -118,11 +143,13 @@ public class Predictor {
             System.out.println("Formato de placa incorrecto");
             validar = Boolean.FALSE;
         }
+
+        //Verifica si la primera letra de la mátricula corresponde a un código aceptado 
+        if (new String(codigosProvincias).indexOf(numeroPlaca.charAt(0)) == -1) {
+            System.out.println("El código de la placa" + " " + numeroPlaca.charAt(0) + " " + "no corresponde a los códigos permitidos");
+            validar = Boolean.FALSE;
+        }
         return validar;
-    }
-
-    public void comprobarPicoYPlaca() {
-
     }
 
     public String getNumeroPlaca() {
